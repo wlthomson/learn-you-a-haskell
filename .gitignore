@@ -5,3 +5,6 @@
 # haskell
 *.hi
 *.o
+
+# bin
+StartingOut
