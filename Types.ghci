@@ -1,0 +1,75 @@
+-- Types,ghci
+
+:set +m
+
+:t 'a'
+:t True
+:t "HELLO!"
+:t (True, 'a')
+:t (4 == 5)
+
+let removeNonUppercase :: [Char] -> [Char]
+    removeNonUppercase st = [c | c <- st, c `elem` ['A'..'Z']]
+
+let addThree :: Int -> Int -> Int -> Int
+    addThree x y z = x + y + z
+
+addThree 1 2 3
+
+let factorial :: Integer -> Integer
+    factorial n = product [1..n]
+
+factorial 50
+
+let circumference :: Float -> Float
+    circumference r = 2 * pi * r
+
+circumference 4.0
+
+let circumference :: Double -> Double
+    circumference r = 2 * pi * r
+
+circumference 4.0
+
+:t head
+:t fst
+
+:t (==)
+:t elem
+
+:t show
+:t read
+
+read "5" :: Int
+read "5" :: Float
+(read "5" :: Float) * 4
+read "[1,2,3,4]" :: [Int]
+read "(3, 'a')" :: (Int, Char)
+
+:t succ
+:t pred
+
+['a'..'e']
+[LT .. GT]
+[3..5]
+succ 'B'
+
+:t minBound
+:t maxBound
+
+minBound :: Int
+maxBound :: Char
+maxBound :: Bool
+minBound :: Bool
+maxBound :: (Bool, Int, Char)
+
+:t 20
+
+20 :: Int
+20 :: Integer
+20 :: Float
+20 :: Double
+
+:t (*)
+
+:t fromIntegral
