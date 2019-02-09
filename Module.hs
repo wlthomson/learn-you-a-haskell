@@ -1,6 +1,7 @@
 -- Module.hs
 
 import Data.List
+import Data.Char
 
 dataList = do
   let numUniques :: (Eq a) => [a] -> Int
@@ -155,5 +156,56 @@ dataList = do
 
   print (sortBy (compare `on` length) xs)
 
+dataChar = do
+  print (all isAlphaNum "bobby283")
+  print (all isAlphaNum "eddy the fish")
+
+  let on :: (b -> b -> c) -> (a -> b) -> a -> a -> c
+      f `on` g = \x y -> f (g x) (g y)
+
+  print (words "hey guys its me")
+  print (groupBy ((==) `on` isSpace) "hey guys its me")
+  print (filter (not . any isSpace) . groupBy ((==) `on` isSpace) $ "hey guys its me")
+
+  print (generalCategory ' ')
+  print (generalCategory 'A')
+  print (generalCategory 'a')
+  print (generalCategory '.')
+  print (generalCategory '9')
+  print (map generalCategory " \t\nA9?!")
+
+  print (map digitToInt "34538")
+  print (map digitToInt "FF85AB")
+
+  print (intToDigit 15)
+  print (intToDigit 5)
+
+  print (ord 'a')
+  print (chr 97)
+  print (map ord "abcdefgh")
+
+  let encode :: Int -> String -> String
+      encode shift msg =
+        let ords = map ord msg
+            shifted = map (+shift) ords
+        in map chr shifted
+
+  print (encode 3 "Heeeeey")
+  print (encode 4 "Heeeeey")
+  print (encode 1 "abcd")
+  print (encode 5 "Merry Christmas! Ho ho ho!")
+
+  let decode :: Int -> String -> String
+      decode shift msg = encode (negate shift) msg
+
+  let teapotEncoded = encode 3 "Im a little teapot"
+  let teapotDecoded = decode 3 teapotEncoded
+
+  print (teapotEncoded)
+  print (teapotDecoded)
+
+  print (decode 5 . encode 5 $ "This is a sentence")
+
 main = do
   dataList
+  dataChar
