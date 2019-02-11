@@ -2,6 +2,7 @@
 
 import Data.List
 import Data.Char
+import qualified Data.Map as Map
 
 dataList = do
   let numUniques :: (Eq a) => [a] -> Int
@@ -206,6 +207,93 @@ dataChar = do
 
   print (decode 5 . encode 5 $ "This is a sentence")
 
+dataMap = do
+  let phoneBook = [("betty", "555-2938"),
+                   ("bonnie", "452-2928"),
+                   ("patsy", "493-2928"),
+                   ("lucille", "205-2928"),
+                   ("wendy", "939-8282"),
+                   ("penny", "853-2492")]
+
+  let findKey :: (Eq k) => k -> [(k,v)] -> v
+      findKey key xs = snd. head . filter (\(k,v) -> key == k) $ xs
+
+  print (findKey "betty" phoneBook)
+
+  let _findKey :: (Eq k) => k -> [(k,v)] -> Maybe v
+      _findKey key [] = Nothing
+      _findKey key ((k,v):xs) = if key == k
+                                   then Just v
+                                   else _findKey key xs
+
+  print (_findKey "bonnie" phoneBook)
+
+  let __findKey :: (Eq k) => k -> [(k,v)] -> Maybe v
+      __findKey key = foldr (\(k,v) acc -> if key == k then Just v else acc) Nothing
+
+  print (__findKey "patsy" phoneBook)
+
+
+  let fromList' :: (Ord k) => [(k,v)] -> Map.Map k v
+      fromList' = foldr (\(k,v) acc -> Map.insert k v acc) Map.empty
+
+  print (Map.fromList [(1,2),(3,4),(3,2),(5,5)])
+  print (fromList' [(1,2),(3,4),(3,2),(5,5)])
+
+  print (Map.insert 3 100 Map.empty)
+  print (Map.insert 5 600 (Map.insert 4 200 (Map.insert 3 100 Map.empty)))
+  print (Map.insert 5 600 . Map.insert 4 200 . Map.insert 3 100 $ Map.empty)
+
+  print (Map.null Map.empty)
+  print (Map.null $ Map.fromList [(2,3),(5,5)])
+
+  print (Map.size Map.empty)
+  print (Map.size $ Map.fromList [(2,4),(3,3),(4,2),(5,4),(6,4)])
+
+  print (Map.singleton 3 9)
+  print (Map.insert 5 9 $ Map.singleton 3 9)
+
+  print (Map.member 3 $ Map.fromList [(3,6),(4,3),(6,9)])
+  print (Map.member 3 $ Map.fromList [(2,5),(4,5)])
+
+  print (Map.map (*100) $ Map.fromList [(1,1),(2,4),(3,9)])
+
+  print (Map.filter isUpper $ Map.fromList [(1,'a'),(2,'A'),(3,'b'),(4,'B')])
+
+  print (Map.toList . Map.insert 9 2 $ Map.singleton 4 3)
+
+  let _phoneBook = [("betty","555-2938"),
+                    ("betty","342-2492"),
+                    ("bonnie","452-2928"),
+                    ("patsy","493-2928"),
+                    ("patsy","943-2929"),
+                    ("patsy","827-9162"),
+                    ("lucille","205-2928"),
+                    ("wendy","939-8282"),
+                    ("penny","853-2492"),
+                    ("penny","555-2111")]
+
+  let phoneBookToMap :: (Ord k) => [(k, String)] -> Map.Map k String
+      phoneBookToMap xs = Map.fromListWith (\number1 number2 -> number1 ++ ", " ++ number2) xs
+
+  print (Map.lookup "patsy" $ phoneBookToMap _phoneBook)
+  print (Map.lookup "wendy" $ phoneBookToMap _phoneBook)
+  print (Map.lookup "betty" $ phoneBookToMap _phoneBook)
+
+  let _phoneBookToMap :: (Ord k) => [(k,a)] -> Map.Map k [a]
+      _phoneBookToMap xs = Map.fromListWith (++) $ map (\(k,v) -> (k,[v])) xs
+
+  print (Map.lookup "patsy" $ _phoneBookToMap _phoneBook)
+  print (Map.lookup "wendy" $ _phoneBookToMap _phoneBook)
+  print (Map.lookup "betty" $ _phoneBookToMap _phoneBook)
+
+  print (Map.fromListWith max [(2,3),(2,5),(2,100),(3,29),(3,22),(3,11),(4,22),(4,15)])
+
+  print (Map.fromListWith (+) [(2,3),(2,5),(2,100),(3,29),(3,22),(3,11),(4,22),(4,15)])
+
+  print (Map.insertWith (+) 3 100 $ Map.fromList [(3,4),(5,103),(6,339)])
+
 main = do
   dataList
   dataChar
+  dataMap
