@@ -3,6 +3,7 @@
 import Data.List
 import Data.Char
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 
 dataList = do
   let numUniques :: (Eq a) => [a] -> Int
@@ -293,7 +294,52 @@ dataMap = do
 
   print (Map.insertWith (+) 3 100 $ Map.fromList [(3,4),(5,103),(6,339)])
 
+dataSet = do
+  let text1 = "I just had an anime dream. Anime... Reality... Are they so different?"
+  let text2 = "The old man left his garbage can out and now his trash is all over my lawn!"
+
+  let set1 = Set.fromList text1
+  let set2 = Set.fromList text2
+
+  print (set1)
+  print (set2)
+
+  print (Set.intersection set1 set2)
+
+  print (Set.difference set1 set2)
+  print (Set.difference set2 set1)
+
+  print (Set.union set1 set2)
+
+  print (Set.null Set.empty)
+  print (Set.null $ Set.fromList [3,4,5,5,4,3])
+
+  print (Set.size $ Set.fromList [3,4,5,5,4,3])
+
+  print (Set.singleton 9)
+
+  print (Set.insert 4 $ Set.fromList [9,3,8,1])
+  print (Set.insert 8 $ Set.fromList [5..10])
+
+  print (Set.delete 4 $ Set.fromList [3,4,5,4,3,4,5])
+
+  print (Set.fromList [2,3,4] `Set.isSubsetOf` Set.fromList [1,2,3,4,5])
+  print (Set.fromList [1,2,3,4,5] `Set.isSubsetOf` Set.fromList [1,2,3,4,5])
+  print (Set.fromList [1,2,3,4,5] `Set.isProperSubsetOf` Set.fromList [1,2,3,4,5])
+  print (Set.fromList [2,3,4,8] `Set.isSubsetOf` Set.fromList [1,2,3,4,5])
+
+  print (Set.filter odd $ Set.fromList [3,4,5,6,7,2,3,4])
+
+  print (Set.map (+1) $ Set.fromList [3,4,5,6,7,2,3,4])
+
+  let setNub :: (Ord x) => [x] -> [x]
+      setNub xs = Set.toList $ Set.fromList xs
+
+  print (setNub "HEY WHATS CRACKALACKIN")
+  print (nub "HEY WHATS CRACKALACKIN")
+
 main = do
   dataList
   dataChar
   dataMap
+  dataSet
